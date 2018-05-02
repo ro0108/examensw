@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>XML to JAVA Converter: Convert XML to JAVA format</title>
+<meta property="timecb" content="12:13:54 PM"/>
+<meta http-equiv="content-language" content="en-US">
+<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta charset="utf-8"/>
+<meta name="msvalidate.01" content="084CD6E483AD51F958E3681A39B9165D"/>
+<meta name="google-site-verification" content="vlLARRChVnQgehr8KorYtZVny9K7NQPzKNQ3A3g-42k"/>
+<meta name="description" content="Best Online XML to JAVA Converter: Convert XML to JAVA format"/>
+<meta name="author" content="Jimmy"/>
+<meta name="keywords" content="xml to java, XML to JAVA Converter"/>
+<meta property="og:image" content="https://codebeautify.org/img/cb/logo.png"/>
+<meta property="og:url" content="https://codebeautify.org/xml-to-java-converter"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="XML to JAVA Converter: Convert XML to JAVA format"/>
+<meta name="twitter:description" content="Best Online XML to JAVA Converter: Convert XML to JAVA format"/>
+<meta name="twitter:image" content="https://codebeautify.org/img/cb/logo.png"/>
+<meta name="twitter:url" content="https://codebeautify.org/xml-to-java-converter"/>
+<meta name="twitter:creator" content="@codebeautify"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=10"/>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link href="https://plus.google.com/111146553686540738855" rel="publisher">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/img/cb.png" rel="icon"/>
+<link rel="stylesheet" type="text/css" href="css/formatter.css">
+
+
+<input type="hidden" id="isFavTool" value="not-fav" />
+<script>
+var globalurl = "/";
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) {
+        	name = c.substring(name.length, c.length);
+        	return name.replace(/\+/g,' ');
+        }
+    }
+    return "";
+}
+
+function loadJs(jsName){
+	 var script = document.createElement('script');
+	 	script.type = 'text/javascript';
+	 	script.src = globalurl+"js/"+jsName+".js";
+	 	 script.onload = function () {
+            console.log('Loaded script');
+            console.log(this);
+        };
+	    document.head.appendChild(script);
+}
+
+//local use
+function loginWithSocial(provider,tempLogin) {
+	$("#logFail").text("");
+
+	if(tempLogin != true){
+			}
+
+	hello(provider).login({
+		display : 'page',
+		scope : 'email',
+		redirect_uri:'/codebeautify_redirect'
+	}).then(function() {
+	}, function(e) {
+		openErrorDialog('Signin error: ' + e.error.message);
+	});
+}
+ var online = function(session) {
+		var currentTime = (new Date()).getTime() / 1000;
+		return session && session.access_token && session.expires > currentTime;
+	};
+
+	function check_login() {
+		var provider = getProvider();
+		if (provider != null) {
+			getLogindata(provider);
+			$("#loggedin").show();
+		} else {
+			 $("#loggedin").hide();
+			 $("#notloggedin").show();
+			$("#user_id").val("0");
+			createFavouriteImg();
+		}
+	}
+
+	function getProvider() {
+
+						// online
+				 hello.init({ 
+					 facebook :'1379987838916043',
+						google : '1029680282693-o1r44fbtem67h8op2l8g6kiq82cr679c.apps.googleusercontent.com',
+						github : '971a8d9e78fda16f9a30',
+				 });
+				 
+				
+		var provider = null;
+
+		var facebook = hello('facebook').getAuthResponse();
+		var google = hello('google').getAuthResponse();
+		var github = hello('github').getAuthResponse();
+
+		if (online(facebook)) {
+			provider = 'facebook';
+		} else if (online(google)) {
+			provider = 'google';
+		}else if(online(github)){
+			provider = 'github';
+		}
+
+		return provider;
+	}
+
+	function getLogindata(provider) {
+		hello(provider).api('me').then(function(json) {
+
+			if(json.email == null || json.email.length == 0){
+				openErrorDialog("Email id required for login,please try again");
+				return;
+			}
+			if(json.name == null || json.name.length == 0){
+				json.name = json.email;
+			}
+			
+			$.ajax({
+				url : "/service/saveLoginData",
+				dataType : "text",
+				type : "post",
+				data : {
+					name : json.name,
+					email : json.email,
+					provider : provider
+				},
+				success : function(response) {
+					window.location.href = "/codebeautify_redirect";
+				},
+				error : function(e, s, a) {
+					openErrorDialog("Failed to Login, Pls Try Again");
+
+				}
+			});
+		}, function(e) {
+			console.log('getLogindata ' + e.error.message);
+		});
+	}
+	// logout
+function logout() {
+		document.cookie = "loggedinuser=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+
+		if(getProvider() != null){
+			hello(getProvider()).logout().then(function() {
+			}, function(e) {
+			});
+		}
+		
+		$.ajax({
+			url : "/service/logout",
+			success : function(res) {
+				window.location.href = "/codebeautify_redirect";
+			}
+		});
+	}
+
+function createFavouriteImg(){
+
+	$("#favToolImg").remove();
+	
+	var isFav = $("#isFavTool").val();
+	
+
+	var favView = $("<i>");
+	favView.attr("id","favToolImg");
+	$(favView).css("cursor","pointer");
+	favView.attr("aria-hidden",true);
+
+	if(isFav == "fav"){
+		favView.addClass("fa fa-star");
+		favView.attr("title","make it not favourite");
+	}
+	else{
+		favView.addClass("fa fa-star-o");
+		favView.attr("title","make it favourite");
+
+		if(isFav.trim().length == 0){
+			$("#isFavTool").val("not-fav");
+		}
+	}
+
+	$(favView).click(function(){
+		if($("#notloggedin").is(':visible')){
+			login();
+		}
+		else{
+			saveMyfavourite();
+		}
+	});
+	$("#subTitle").append(favView);
+}
+
+function saveMyfavourite(){
+	$.ajax({
+		url : "/service/saveFavouriteTool",
+		dataType : "text",
+		type : "post",
+		data : {
+			view : $("#viewName").val(),
+			title : $("#subTitle").text(),
+			isFav : $("#isFavTool").val()
+		},
+		success : function(response) {
+			var msg = "This tool added to favourite.";
+			$("#favToolImg").attr("src","../img/icons/fav.png");
+			if($("#isFavTool").val() == "fav"){
+				msg = "This tool remove from favourite.";
+				$("#favToolImg").attr("src","../img/icons/not-fav.png");
+				$("#isFavTool").val("not-fav");
+			}
+			else{
+				$("#isFavTool").val("fav");
+			}
+				
+			$("#copy-note-msg").html(msg);
+		    $('#copy-note-msg').removeClass("hide");
+		    $('#copy-note-msg').fadeIn().delay(10000).fadeOut();
+		},
+		error : function(e, s, a) {
+			openErrorDialog("Failed to save favourite tool, Pls Try Again");
+		}
+	});
+}
+
+function isfavourite(){
+	$.ajax({
+		url : "/service/isFavouriteTool",
+		dataType : "text",
+		type : "post",
+		data : {
+			view : $("#viewName").val(),
+		},
+		success : function(response) {
+			$("#isFavTool").val(response);
+			createFavouriteImg();
+		},
+		error : function(e, s, a) {
+			console.log(e);
+		}
+	});
+}
+
+
+//Login
+function toggleOpenClass(){
+	$("#loggedin").toggleClass("open");
+}
+// login dialog
+function login(msg) {
+
+	if (msg == undefined) {
+		$("#logFail").text("");
+
+		$("#username_txt1").val("");
+		$("#email_txt1").val("");
+		$("#pass_txt1").val("");
+		$("#pass_txt").val("");
+		$("#email_txt").val("");
+
+		$("#signinDiv").show();
+		$("#signupDiv").hide();
+	} else {
+		$("#logFail").text(msg);
+	} 
+
+	$("#customLogin").dialog({
+		modal : true,
+		width : "auto",
+		draggable : false,
+		height : "auto",
+		title : "LOGIN",
+		autoOpen : true,
+		resizable : false,
+	});
+	$("#customLogin1").dialog({
+		modal : true,
+		width : "auto",
+		draggable : false,
+		height : "auto",
+		title : "LOGIN",
+		autoOpen : true,
+		resizable : false,
+	});
+	$(".ui-dialog-titlebar-close").hide();
+	$(".ui-dialog .ui-dialog-titlebar").hide();
+
+}
+
+// custom login
+function customLogin() {
+	var email = $("#email_txt").val();
+	var pass = $("#pass_txt").val();
+	var is_cblogin = $("#is_cblogin").val();
+	if (email.trim() == "" || pass.trim() == "") {
+		openErrorDialog("Please Enter the Email and Password");
+		return false;
+	} else {
+		$("#logFail").text("");
+		if(is_cblogin !='1')
+		{
+			$("#customLogin").dialog('destroy');
+		}
+		
+		$.ajax({
+			url : "/service/login",
+			dataType : "text",
+			type : "post",
+			data : {
+				email : email,
+				password : pass,
+			},
+			success : function(response) {
+
+				if (response == "success") {
+					if(!is_cblogin)
+					{
+						location.reload();
+					}
+					else
+					{
+						location.href='/';
+					}
+					
+				} else {
+					var msg = "Invalid username and password";
+					login(msg);
+				}
+
+			},
+			error : function(e, s, a) {
+
+				openErrorDialog("Failed to Login Pls Try Again");
+
+			}
+		});
+	}
+}
+
+// sign up with codebeautify
+function customSignup() {
+	var email = $("#email_txt1").val();
+	var password = $("#pass_txt1").val();
+	var username = $("#username_txt1").val();
+	if (email.trim() == "" || password.trim() == "" && username.trim() == "") {
+		openErrorDialog("Please Enter the required information");
+		return false;
+	} else {
+		$("#logFail").text("");
+		$("#customLogin").dialog('destroy');
+		$.ajax({
+			url : "/service/signup",
+			dataType : "text",
+			type : "post",
+			data : {
+				username : username,
+				email : email,
+				password : password
+			},
+			success : function(response) {
+
+				if (response == "success") {
+					location.reload();
+				} else if (response.trim() == "duplicateEmail") {
+					var msg = "Email Id is already registered....";
+					login(msg);
+				} else {
+					var msg = "Failed to Create an Account, Pls Try Again";
+					login(msg);
+				}
+
+			},
+			error : function(e, s, a) {
+
+				openErrorDialog("Failed to Login, Pls Try Again");
+
+			}
+		});
+	}
+}
+
+
+function signupView() {
+	$("#signinDiv").hide();
+	$("#signupDiv").show();
+}
+
+function checkEmail(id) {
+	if ($("#" + id).val() != null && $("#" + id).val() != "") {
+		var email = document.getElementById(id);
+		var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+		if (!filter.test(email.value)) {
+			$("#logFail").text('Please provide a valid email address');
+			$("#" + id).focus();
+		} else {
+			$("#logFail").text('');
+		}
+		return false;
+	}
+}
+
+function ylogin() {
+	$("#yloginsection").dialog({
+		modal : true,
+		title : "Why you need to Login Or Register ?",
+		zIndex : 10000,
+		autoOpen : true,
+		width : 'auto',
+		resizable : false,
+
+	});
+}
+
+
+if ( typeof(window.google_jobrunner) === "undefined" ) {
+	$("#adBlock_dialog").removeClass("hide");
+	$( "#adBlock_dialog" ).dialog({
+		modal : true,
+		zIndex : 10000,
+		autoOpen : true,
+		width : '500',
+		resizable : false,
+		closeOnEscape: false
+	 });
+	$(".ui-dialog-titlebar-close").remove();
+} 
+
+$(document).ready(function() {
+	var user=getCookie("loggedinuser");
+	var userid=getCookie("loggedinuserid");
+
+	if(user!="" && userid != "")	 
+	{
+	$("#usernamelable").text(user.substring(0, 5)+".."); 
+	$("#notloggedin").hide(); 
+	$("#loggedin").show();
+	loadJs("dropdown");
+	updateUserSession(userid);
+	isfavourite();
+	}else{
+	check_login();
+	}
+});
+
+function updateUserSession(id){
+	$.ajax({
+		type : "post",
+		url : "/service/updateSession",
+		data : {
+			id : id
+		},
+		success : function(response) {
+			console.log("/service/updateSession ->" + response);
+		}
+	});
+}
+</script>
+</head>
+<body id="cbBody">
+<script type="text/javascript">
+
+$(document).ready(function(){
+	    $("body").addClass("intro");
+	});
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51765955-1', 'codebeautify.org');
+  ga('send', 'pageview');
+
+</script>
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container-fluid">
+<div class='mainheader'>
+<div class='logo'>
+
+</div>
+<div class='headerMenu'>
+<div class="nav-collapse collapse">
+<ul class="nav pull-right rightsidemenusitem li-right">
+<li id="notloggedin" class="dropdown pull-right liFirstChild">
+</li>
+<li id="loggedin" class="dropdown pull-right" onclick="toggleOpenClass()">
+<a id="username" class="dropdown-toggle" data-toggle="dropdown">
+<b id="usernamelable"></b>
+<b class="caret"></b>
+</a>
+<ul class="dropdown-menu pull-right">
+<li><a href="https://codebeautify.org/userSaveLinkPage" class="leftText" rel="nofollow">My Links</a></li>
+<li><a href="https://codebeautify.org/userSaveOldLinkPage" class="leftText" rel="nofollow">My Archived Links</a></li>
+<li><a href="/profile" class="leftText" rel="nofollow">My Profile</a></li>
+<li><a href="/myFavouriteTools" class="leftText" rel="nofollow">My Favourite Tools</a></li>
+</ul>
+</li>
+
+<li class="dropdown pull-right margin-last-li">
+
+</li>
+</ul>
+<div id="copy-note-msg" class="hide">
+Copied to Clipboard.
+</div>
+</div>
+</div>
+<div id="adBlock_dialog" title="Hi Coder" class="hide">
+<p><b>It looks like you're blocking ads.</b>
+Ads help me pay the bills. Can I ask that you <a href="http://www.wikihow.com/Disable-Adblock" target="_blank" style="color: #0088cc!important;">disable Adblocker just for this site</a>? I promise the ads aren't obnoxious.
+Please disable adBlocker and <a href="#" style="color: #0088cc!important;" onclick="javascript:document.location.reload(true);">refresh</a> page.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="some_other_box"></div>
+<div class="containe-fluid headerEditorContainer">
+<div class="row-fluid">
+<div class="span12 subTitleDiv">
+<div class="span6">
+<h1 id="subTitle" title="XML to JAVA Converter">XML to JAVA Converter</h1>
+</div>
+<div class="span6" id="permalinkDiv">
+<div class='permalinkButtonDiv'>
+
+<div class='permalinkDiv'>
+<label id="permalink" class='permaLinkLabel'> </label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="fbpost" class='hide'>
+<div id="shareDiv">
+</div>
+</div>
+
+<div id="yloginsection" class='yLoginSection'>
+<div class="span7 yLoginDiv">
+<p>If you use Codebeautify regularly, registering for an account can be useful for some reasons.</p>
+<ul>
+<li>Your options are tied to your account, so you only have to change them once rather than every time you visit Codebeautify.</li>
+<li>All of your shared Code can be viewed in a <b>Saved Links</b> dialog, so you don't have to worry about losing the report URLs.</li>
+<li>You can also title your Codew reports when you save them, for more convenient organization.</li>
+</ul>
+<p>Registration only takes a minute and is of course perfectly free. We are also planning on adding more features to user accounts in the future, such as more advanced comparison options. Be sure to let us know if you have any feature suggestions using the Feedback link on the left side.</p>
+</div>
+</div>
+<div id="customLogin" class='customLogin'>
+<style>
+		.simple_login{
+			color: white!important;
+		}
+	</style>
+<div class="span7 loginDiv">
+<h3 class='loginDivTitle'>LOGIN <label class="close1 loginDivCloseButton">X</label></h3>
+<div class="center logindiv">
+<label class="span6 logFail" id="logFail"></label>
+<table id="signinDiv" class='center'>
+<tr>
+<td>
+<button onclick="loginWithSocial('facebook')" class="btn btn-success">Facebook</button>
+</td>
+</tr>
+<tr>
+<tr>
+<button onclick="loginWithSocial('google')" class="btn btn-success">Google</button>
+</td>
+</tr>
+<tr>
+<td class="simple_login">
+If you want to login with email id & password? <a class="simple_login" href="/cblogin">Click here</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+<div id="savedialog" class="hide">
+<input type="hidden" id="edit_link_id" value="" />
+<table>
+<tr>
+<td>Title</td>
+<td><input type="text" maxlength="60" id="save_link_title" value="" /></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><textarea id="save_link_description" placeholder="optional"></textarea></td>
+</tr>
+<tr>
+<td>Tags</td>
+<td><textarea id="save_link_tags" placeholder="optional"></textarea></td>
+</tr>
+</table>
+</div>
+
+<input type="hidden" id="viewName" value="xml-to-java-converter">
+<input type="hidden" id="isLogin" value="">
+</div>
+<div id="innerBody" class="innerBody setBgImage">
+<div class="containe-fluid viewerInnerBodyDiv">
+<div class="row-fluid back">
+<div class="span12 viewerInnerBodyDiv1">
+<div class="span5 mainLeftInputDiv" id="mainLeftDiv">
+<div class="span12 mainLeftInputDiv1">Input
+<a id="fs" class="fullScreen" href="#" onclick="fullScreenLeft();">Full Screen</a>
+<a id="clearImg" class='clearImage' href="#">Clear</a>
+</div>
+<div class="span12 viewerInnerBodyDiv1">
+<div id="editor" class='viewerEditor'></div>
+</div>
+</div>
+<div class="span2 center buttonSection">
+<input type="button" title="Load From Url" value="Load Url" onclick="loadFromURL('xml');" class="btn"><br>
+<input type="button" value="open" id="me" onclick="openFile('me','xml')" class="btn" title="OpenFile"><br>
+<input type="button" value="XML TO JAVA" title="Convert XML TO JAVA" onclick="convertXMLToJava();" class="btn"><br>
+<input type="button" value="Download" onclick="createFile('java');" class="btn" title="Download Result">
+<div style="text-align:center;" class="adsense">
+<script async src="js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:200px;height:200px" data-ad-client="ca-pub-4125058781634690" data-ad-slot="8168901167"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+<div class="span5 mainLeftInputDiv" id="mainRightDiv">
+<div class="span12 mainLeftInputDiv1">
+<span id="outputMsg">Result</span>
+<a id="fs1" class='fullScreen' href="#" onclick="fullScreenRight();">Full Screen</a>
+</div>
+<div class="span12 mainRightInputDiv2">
+<div id="result" class='viewerEditor'></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div style="text-align:center;" class="adsense">
+<script async src="js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-4125058781634690" data-ad-slot="2203092761"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="container-fluid infoSection">
+<div class="row-fluid footerpart">
+<div class="span12">
+<div class="span6 infoDiv">
+</ul>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hellojs/1.13.4/hello.all.js"></script>
+<script type="text/javascript" src="js/filedrop.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.1/ace.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/ajaxupload.3.5.js"></script>
+<script src="js/common_load.js" type="text/javascript"></script>
+
+
+<script data-cfasync="true" src="js/xml2json.js" type="text/javascript"></script>
+<script data-cfasync="true" type="text/javascript" src="js/beautify.js"></script>
+
+
+
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script data-cfasync="true" type="text/javascript" src="js/vkbeautify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script data-cfasync="true" type="text/javascript" src="js/convertToCsv.js"></script>
+<script data-cfasync="true" type="text/javascript" src="js/viewer/json2convert.js"></script>
+<script data-cfasync="true" type="text/javascript" src="js/convertToJava.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script data-cfasync="true" type="text/javascript" src="js/convertToCsv.js"></script>
+<script data-cfasync="true" type="text/javascript" src="js/viewer/xmlviewer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<script type="text/javascript" src="js/footer.js"></script>
+<div class="container-fluid">
+
+<p id="back-top">
+<a href="#top" title='Scroll to Top'><span></span>&nbsp;</a>
+</p>
+</div>
+<input id="fContent" type="hidden" value="" />
+<input id="inputvalue" type="hidden" value="" />
+<input id="fUrl" type="hidden" value="" />
+<input id="fTitle" type="hidden" value="XML to JAVA Converter: Convert XML to JAVA format" />
+<input id="fValue" type="hidden" value="" />
+<input id="loginWith" type="hidden" value="" />
+<div id="openError" class='hide'> </div>
+<div id="loadUrlPathDiv" class='hide'>
+<input type="text" id="path" class='urlPath' placeholder="Paste your url">
+</div>
+<div id="gdriveDialog" class='hide'>
+<div id="savetodrive-div"></div>
+</div>
+<div style="display: none" id="exportToExcelDiv">
+</div>
+</body>
+</html>

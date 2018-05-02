@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+  
+<!-- Mirrored from www.uco.es/users/in1rosaj/tools/jsUML2/editor/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Apr 2018 15:48:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UML Diagram</title>
+
+    <link type="text/css" rel="stylesheet" href="css/UDStyle.css"/>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>  
+    <link rel="stylesheet" href="../chat.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    
+    
+  </head>
+  
+  <body>
+
+        <div class="row">
+        
+           
+            <div class="panel panel-primary" style="padding-top: 50px;">
+                <div class="panel-heading" >
+                    <span class="glyphicon glyphicon-comment"></span> <strong>Chat Nombre</strong>
+                 
+                <div class="panel-body">
+                    <ul class="chat" id="chat">
+                      
+
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                      <form id="chat-form">
+                         <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-lg" id="btn-chat">
+                                Enviar</button>
+                        </span>
+                      </form>
+                       
+                    </div>
+                </div>
+            </div>
+     
+  
+
+            </div>
+
+       </div>
+             
+          
+   
+    <div id="debug"></div>
+   <script src="/socket.io/socket.io.js"></script>
+   <script src="../chat.js"></script>
+ 
+  </body>
+

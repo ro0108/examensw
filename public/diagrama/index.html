@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+  
+<!-- Mirrored from www.uco.es/users/in1rosaj/tools/jsUML2/editor/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Apr 2018 15:48:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UML Diagram</title>
+
+    <link type="text/css" rel="stylesheet" href="css/UDStyle.css"/>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>  
+    <link rel="stylesheet" href="../chat.css">
+   
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="UDCore.js"></script>
+    <script type="text/javascript" src="UDModules.js"></script>
+    <script type="text/javascript" src="UDApplication.js"></script>
+   
+  </head>
+  
+  <body>
+
+        <div class="row">
+          <input type="button" onclick="show()" value="Convertir java " />
+           <div class="col-10" style="background: #D6DBDF;padding-top: 30px;" >
+             <div id="umldiagram" >
+              
+              </div> 
+           </div>
+            
+            <div class="col-2" style="position: fixed;left: 79%;width: 300px;">
+           
+            <div class="panel panel-primary" style="padding-top: 50px;">
+                <div class="panel-heading" style="background: white;">
+                  <strong id="usuario">Chat Nombre</strong>
+                 
+                <div class="panel-body" style="padding-left: 6px;">
+                    <ul class="chat" id="chat" style="margin-left: 79%px;">
+                      
+
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                      <form id="chat-form">
+                         <input id="btn-input" type="text" class="form-control input-sm personalizado" placeholder="Escribe uncomentario aqui..." />
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-lg" id="btn-chat">
+                                Enviar</button>
+                        </span>
+                      </form>
+                       
+                    </div>
+                </div>
+            </div>
+     
+  
+
+            </div>
+
+        </div>
+            
+             
+          
+   
+    <div id="debug"></div>
+    <script>window.jQuery || document.write('<script src="js/jquery-2.2.0.min.js"><\/script>')</script>
+   <script src="../socket.io/socket.io.js"></script>
+   <script src="../chat.js"></script>
+     <script src="../vista.js"></script>
+     <script src="./datos.js"></script>
+     <script src="./ruta.js"></script>
+     <script src="./convertidor.js"></script>
+  </body>
+

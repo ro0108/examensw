@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)http://www.uco.es/~in1rosaj/tools/jsUML2/editor/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <title>UML Diagram</title>
+
+    <link type="text/css" rel="stylesheet" href="./UML Diagram_files/UDStyle.css">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">  
+
+    <script type="text/javascript" src="./UML Diagram_files/UDCore.js.descarga"></script>
+    <script type="text/javascript" src="./UML Diagram_files/UDModules.js.descarga"></script>
+    <script type="text/javascript" src="./UML Diagram_files/UDApplication.js.descarga"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+      			var width = screen.availWidth - 250;
+				var height = screen.availHeight;
+
+				if(width < 400)  width = width+250;
+				if(width > 1000) width = 1000;
+
+        var app = new Application( { id: 'umldiagram', width: width, height: height } );  
+      }
+    </script>
+    
+  </head>
+  
+  <body>
+  	<font color="blue" face="Helvetica, Verdana, Arial" size="2"><i><b>The jsUML2 editor (004)</b>. </i></font><i><font face="Helvetica, Verdana, Arial" size="2">This tool is a demo, and has been developed using the <a href="http://code.google.com/p/jsuml2" target="_blank">jsUML2</a> library.</font></i><font face="Helvetica, Verdana, Arial" size="2"> (C) The authors, Feb 2014.</font><br>
+  	<font color="black" face="Helvetica, Verdana, Arial" size="2">You may go to the previous working version of this editor (<a href="http://www.uco.es/~in1rosaj/tools/jsUML2/editor_003/index.html">003</a>). Notice that no public use, with or without partial modification or adaptation, should be performed without explicit permission. Then, it is important to acknowledge the original work publicly on your site and not to pass it off as your own. Additionally, any contribution to the project will be appreciated and acknowledged.
+	</font><br>
+	
+    <div id="umldiagram">
+    <div id="ud_tools_div"><h1><img src="./UML Diagram_files/vertical_flow.png">Actions</h1><ul id="ud_tools_ul1"><li><img src="./UML Diagram_files/import_export.png"><a>Export/Import to xml</a></li><li><img src="./UML Diagram_files/generate_image.png"><a>Generate image (png)</a></li><li><img src="./UML Diagram_files/delete_object.png"><a>Delete object</a></li><li><img src="./UML Diagram_files/modify_color.png"><a>Modify color</a></li><li><img src="./UML Diagram_files/UMLUseCaseDiagram.png"><a>New use case diagram</a></li><li><img src="./UML Diagram_files/UMLClassDiagram.png"><a>New class diagram</a></li><li><img src="./UML Diagram_files/UMLPackageDiagram.png"><a>New package diagram</a></li><li><img src="./UML Diagram_files/UMLInstanceDiagram.png"><a>New instance diagram</a></li><li><img src="./UML Diagram_files/UMLComponentDiagram.png"><a>New component diagram</a></li><li><img src="./UML Diagram_files/UMLDeploymentDiagram.png"><a>New deployment diagram</a></li><li><img src="./UML Diagram_files/UMLActivityDiagram.png"><a>New activity diagram</a></li><li><img src="./UML Diagram_files/UMLSequenceDiagram.png"><a>New sequence diagram</a></li><li><img src="./UML Diagram_files/UMLStateMachineDiagram.png"><a>New state machine diagram</a></li><li><img src="./UML Diagram_files/UMLProfile.png"><a>New profile</a></li></ul><h1><img src="./UML Diagram_files/vertical_flow.png">Diagram elements</h1><ul id="ud_tools_ul2"><li><img src="./UML Diagram_files/UMLAcceptEventAction.png"><a>AcceptEventAction</a></li><li><img src="./UML Diagram_files/UMLTimeEvent.png"><a>TimeEvent</a></li><li><img src="./UML Diagram_files/UMLSendSignalAction.png"><a>SendSignalAction</a></li><li><img src="./UML Diagram_files/UMLAction.png"><a>Action</a></li><li><img src="./UML Diagram_files/UMLObject.png"><a>ObjectNode</a></li><li><img src="./UML Diagram_files/UMLActivity.png"><a>Activity</a></li><li><img src="./UML Diagram_files/UMLDataStore.png"><a>DataStore</a></li><li><img src="./UML Diagram_files/UMLConnector2.png"><a>Connector</a></li><li><img src="./UML Diagram_files/UMLHorizontalSwimlane.png"><a>HorizontalSwimlane</a></li><li><img src="./UML Diagram_files/UMLVerticalSwimlane.png"><a>VerticalSwimlane</a></li><li><img src="./UML Diagram_files/UMLHorizontalHierarchicalSwimlane.png"><a>HorizontalHierarchicalSwimlane</a></li><li><img src="./UML Diagram_files/UMLVerticalHierarchicalSwimlane.png"><a>VerticalHierarchicalSwimlane</a></li><li><img src="./UML Diagram_files/UMLPin.png"><a>Add pin</a></li><li><img src="./UML Diagram_files/UMLParameterNode.png"><a>Parameter node</a></li><li><img src="./UML Diagram_files/UMLExpansionNode.png"><a>Expansion node</a></li><li><img src="./UML Diagram_files/UMLFlow.png"><a>Flow/Edge</a></li><li><img src="./UML Diagram_files/UMLExceptionHandler.png"><a>ExceptionHandler</a></li><li><img src="./UML Diagram_files/UMLActivityFinal.png"><a>ActivityFinal</a></li><li><img src="./UML Diagram_files/UMLInitialNode.png"><a>InitialNode</a></li><li><img src="./UML Diagram_files/UMLFlowFinal.png"><a>FlowFinal</a></li><li><img src="./UML Diagram_files/UMLDecision_MergeNode.png"><a>Decision/Merge Node</a></li><li><img src="./UML Diagram_files/UMLFork_JoinNode.png"><a>Fork/Join Node</a></li><li><img src="./UML Diagram_files/UMLNote.png"><a>Note</a></li><li><img src="./UML Diagram_files/UMLAnchor.png"><a>Anchor</a></li></ul></div><div id="ud_container_div"><div id="ud_selector_div"><ul id="ud_selector_ul"><li><a>Sequence diagram</a></li><li class="active"><a>Activity diagram</a></li></ul></div><div id="ud_diagram_div" class="ud_diagram_div" style="width: 1000px; height: 580px;"><canvas class="ud_diagram_canvas" width="1000" height="580"></canvas><canvas class="ud_diagram_canvas" width="1000" height="580"></canvas><div id="ud_update_div" title="apply changes in profile to diagrams" style="right: 15px; display: none;"></div><div id="ud_delete_div"></div></div></div></div>
+
+      
+   
+   
+    <div id="debug"></div> 
+  
+<script id="wappalyzer" src="chrome-extension://gppongmhjkpfnbhagpmjfkannfbllamg/js/inject.js"></script></body></html>
