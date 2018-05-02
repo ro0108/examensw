@@ -1,10 +1,10 @@
 'use strict';
-
+const cool = require('cool-ascii-faces')
 var express = require('express');
 var	app = express();
 var server = require('http').Server(app);
 var	io = require('socket.io')(server);
-var	port = process.env.PORT || 8000;
+var	port = process.env.PORT || 5000;
 var	publicDir = express.static(`${__dirname}/public`);
     const bodyParser = require('body-parser');
     
@@ -71,6 +71,8 @@ app.post('/registrar',(req,res)=>{
       }
   });
 });
+
+app.get('/cool', (req, res) => res.send(cool()))
 
 io.on('connection', (socket) => {
 	//socket.broadcast.emit('new user', {message : 'Se ha conectado un  nuevo usuario'});
