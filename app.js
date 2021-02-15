@@ -1,41 +1,51 @@
 'use strict';
-const cool = require('cool-ascii-faces')
-var express = require('express');
-var	app = express();
-var server = require('http').Server(app);
-var	io = require('socket.io')(server);
-var	port = process.env.PORT || 5000;
-var	publicDir = express.static(`${__dirname}/public`);
-    const bodyParser = require('body-parser');
+const cool = require('cool-ascii-faces');
+const express = require('express');
+const	app = express();
+const server = require('http').Server(app);
+const	io = require('socket.io')(server);
+const	port = process.env.PORT || 5000;
+const	publicDir = express.static(`${__dirname}/public`);
+
+
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
     
 
-    app.use(bodyParser.urlencoded({extended : false}));
-    app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.json());
 
+app.use(publicDir);
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
 
-    var mysql = require('mysql');
-    var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'tiemporeal',
-    port: 3306
-     });
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'tiemporeal',
+  port: 3306
+});
 
-    connection.connect(function(error){
-    if(error){
-      throw error;
-    }else{
-      console.log('Conexion correcta.');
-    }
-     });
+connection.connect(error => {
+  if (error) {
+    console.error('error connecting: ' + error.stack);
+    return;
+  }
 
-app.use(publicDir)
+  console.log('connected as id ' + connection.threadId);
+});
+
 app.get( '/diagrama', (req, res) => res.sendFile(`${publicDir}/diagrama/index.html`) );
 
-app.post('/ingresar/',(req,res) =>{
-    var query = connection.query("SELECT * FROM `usuario` WHERE correo='"+req.body.email+"' and password = '"+req.body.password+"'", 
+app.post('/ingresar',(req,res) =>{
+    const query = connection.query("SELECT * FROM `usuario` WHERE email='"+req.body.email+"' and password = '"+req.body.password+"'", 
     function(error,result){
         if(error){
         console.log("error");  
@@ -48,14 +58,15 @@ app.post('/ingresar/',(req,res) =>{
             res.status(200).send({access: false});
         }
     });
-    
 });
 
+app.get( '/salas', (req, res) => res.sendFile(`${publicDir}/sala/index.html`) );
+
 app.post('/getUsuario', (req, res) => {
-      var query = connection.query("SELECT * FROM usuario WHERE id = " + req.body.usuario_id,
+    var query = connection.query("SELECT * FROM usuario WHERE id = " + req.body.usuario_id,
     function(error,result){
       if(result.length > 0)
-        res.status(200).send({access: true, nombre : result[0].nombre});
+        res.status(200).send({access: true, user : result[0]});
         else
         res.status(200).send({access: false});
     });

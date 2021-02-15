@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
   $('#formulario').on('submit', function(event){
-      event.preventDefault();
-     $.ajax({
+    event.preventDefault();
+    $.ajax({
         url : ruta + 'ingresar',
         type: 'POST',
         dataType : 'json',
@@ -14,25 +14,20 @@ $(document).ready(function(){
       .done(function(respuesta){
         console.log(respuesta);
         if(respuesta.access){
-            var datos = respuesta.datos[0];
+            const datos = respuesta.datos[0];
             console.log(datos.nombre);
-            location.href = ruta + 'diagrama?id='+datos.id;
-        }
-        else{
-            $('.error').css('visibility','visible');
-            $('.error').slideDown('slow');
-
-            setTimeout(function(){
-                $('.error').slideUp('slow'); 
-            },3000);
+            location.href = ruta + 'salas?id='+datos.id;
+        }else{
             $('#sub').html('ingresar');
         }
       })
       .fail(function(respuesta){
-        console.log(respuesta);
+        console.log('fail');
+        $('#sub').html('ingresar');
+        //console.log(respuesta);
       })
       .always(function(){
-        console.log('completado');
+        console.log('completado always');
       });
   });
 });

@@ -1,0 +1,11 @@
+.centrado {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+.cargando{
+    margin: 40%;
+}
+.contenido {
+    display: none;
+}
